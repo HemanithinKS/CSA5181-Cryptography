@@ -1,7 +1,3 @@
-Ex.4 : Write a C program for monoalphabetic substitution cipher maps a plaintext alphabet to a ciphertext 
-alphabet, so that each letter of the plaintext alphabet maps to a single unique letter of the ciphertext 
-alphabet.
-soln:
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>  
@@ -60,7 +56,3 @@ int main()
 
     return 0;
 }
-
-Ex.5 :Write a C program for polyalphabetic substitution cipher(Vigenère Cipher) uses a separate monoalphabetic substitution 
-cipher for each successive letter of plaintext, depending on a key.
-DEx.6 : To write a C program to implement the rail fence transposition technique.
