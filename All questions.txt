@@ -279,3 +279,43 @@ int main() {
     return 0;
 }
 
+Ex.4 : Write a C program for monoalphabetic substitution cipher maps a plaintext alphabet to a ciphertext 
+alphabet, so that each letter of the plaintext alphabet maps to a single unique letter of the ciphertext 
+alphabet.
+soln:
+#include<stdio.h>
+#include<string.h>
+
+int main()
+{
+    char plain[100], cipher[100], key[27];
+    int i, j, k, len;
+    printf("Enter the plain text: ");
+    fgets(plain, 100, stdin);
+    printf("Enter the key: ");
+    fgets(key, 27, stdin);
+    len = strlen(plain);
+    for(i=0; i<len; i++)
+    {
+        if(plain[i]>='a' && plain[i]<='z')
+        {
+            j = plain[i] - 'a';
+            cipher[i] = key[j];
+        }
+        else if(plain[i]>='A' && plain[i]<='Z')
+        {
+            j = plain[i] - 'A';
+            cipher[i] = key[j];
+        }
+        else
+        {
+            cipher[i] = plain[i];
+        }
+    }
+    printf("The cipher text is: %s", cipher);
+    return 0;
+}
+
+Ex.5 :Write a C program for polyalphabetic substitution cipher(Vigenère Cipher) uses a separate monoalphabetic substitution 
+cipher for each successive letter of plaintext, depending on a key.
+DEx.6 : To write a C program to implement the rail fence transposition technique.
