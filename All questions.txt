@@ -282,66 +282,140 @@ int main() {
 Ex.4 : Write a C program for monoalphabetic substitution cipher maps a plaintext alphabet to a ciphertext 
 alphabet, so that each letter of the plaintext alphabet maps to a single unique letter of the ciphertext 
 alphabet.
-soln:#include <stdio.h>
-#include <string.h>
-#include <ctype.h>  
+soln:
+#include<stdio.h>
+#include<string.h>
 
 int main()
 {
-    char plain[100], cipher[100];
-    char key[] = "qwertyuiopasdfghjklzxcvbnm9876543210"; 
-    int i, j, len;
-    if (strlen(key) != 36)
-    {
-        printf("Invalid key length. The key must be 36 characters long.\n");
-        return 1;
-    }
-
+    char plain[100], cipher[100], key[27];
+    int i, j, k, len;
     printf("Enter the plain text: ");
-    fgets(plain, sizeof(plain), stdin);
-
+    fgets(plain, 100, stdin);
+    printf("Enter the key: ");
+    fgets(key, 27, stdin);
     len = strlen(plain);
-    for (i = 0; i < len; i++)
+    for(i=0; i<len; i++)
     {
-        if (isalpha(plain[i]))
+        if(plain[i]>='a' && plain[i]<='z')
         {
-            char base = islower(plain[i]) ? 'a' : 'A';
-            j = toupper(plain[i]) - 'A';
-            if (j >= 0 && j < 26)
-            {
-                cipher[i] = key[j];
-            }
-            else
-            {
-                cipher[i] = plain[i];
-            }
+            j = plain[i] - 'a';
+            cipher[i] = key[j];
         }
-        else if (isdigit(plain[i]))
+        else if(plain[i]>='A' && plain[i]<='Z')
         {
-            j = plain[i] - '0';
-
-            if (j >= 0 && j < 10)
-            {
-                cipher[i] = key[26 + j];
-            }
-            else
-            {
-                cipher[i] = plain[i];
-            }
+            j = plain[i] - 'A';
+            cipher[i] = key[j];
         }
         else
         {
             cipher[i] = plain[i];
         }
     }
-
-    cipher[len] = '\0'; 
     printf("The cipher text is: %s", cipher);
+    return 0;
+}
+
+Ex.5 :Write a C program for polyalphabetic substitution cipher(Vigenère Cipher) uses a separate monoalphabetic substitution 
+cipher for each successive letter of plaintext, depending on a key.
+soln
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+
+int main() {
+    char msg[100]; 
+    char key[100]; 
+    int msgLen, keyLen, i, j;
+
+    printf("Enter the plain text (letters and digits): ");
+    scanf("%s", msg);
+    printf("Enter the key: ");
+    scanf("%s", key);
+
+    msgLen = strlen(msg);
+    keyLen = strlen(key);
+
+    char newKey[msgLen], encryptedMsg[msgLen];
+
+    
+    for (i = 0, j = 0; i < msgLen; ++i, ++j) {
+        if (j == keyLen)
+            j = 0;
+        newKey[i] = key[j];
+    }
+    newKey[i] = '\0';
+
+    
+    for (i = 0; i < msgLen; ++i) {
+        if (isalpha(msg[i])) {
+            encryptedMsg[i] = ((toupper(msg[i]) + toupper(newKey[i])) % 26) + 'A';
+        } else if (isdigit(msg[i])) {
+            encryptedMsg[i] = ((msg[i] - '0' + newKey[i]) % 10) + '0';
+        } else {
+            encryptedMsg[i] = msg[i]; 
+        }
+    }
+    encryptedMsg[i] = '\0';
+
+    
+
+    printf("Original Message: %s\n", msg);
+    printf("Key: %s\n", key);
+    printf("New Generated Key: %s\n", newKey);
+    printf("Encrypted Message: %s\n", encryptedMsg);
+   
 
     return 0;
 }
 
-
-Ex.5 :Write a C program for polyalphabetic substitution cipher(Vigenère Cipher) uses a separate monoalphabetic substitution 
-cipher for each successive letter of plaintext, depending on a key.
 DEx.6 : To write a C program to implement the rail fence transposition technique.
+
+soln
+#include <stdio.h>
+#include <string.h>
+
+int main() {
+    char str[100];
+    char encrypted[100] = "";
+    int depth;
+
+    printf("Rail Fence - Encryption\n\n");
+
+    printf("Enter Plain Text: ");
+    scanf("%s", str);
+
+    printf("Enter Depth: ");
+    scanf("%d", &depth);
+
+    int len = strlen(str);
+    char rails[depth][len];
+    for (int i = 0; i < depth; i++) {
+        for (int j = 0; j < len; j++) {
+            rails[i][j] = '\0';
+        }
+    }
+
+    int dir = 1;
+    int row = 0;
+    for (int i = 0; i < len; i++) {
+        rails[row][i] = str[i];
+        row += dir;
+        if (row == depth - 1 || row == 0) {
+            dir *= -1;
+        }
+    }
+
+    for (int i = 0; i < depth; i++) {
+        for (int j = 0; j < len; j++) {
+            if (rails[i][j] != '\0') {
+                encrypted[strlen(encrypted)] = rails[i][j];
+            }
+        }
+    }
+
+    printf("Cipher Text: %s\n", encrypted);
+
+    return 0;
+}
+
